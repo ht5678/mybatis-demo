@@ -7,7 +7,6 @@ INSERT INTO permission_main(id,permission_name,description,url,available,leaf,pa
 INSERT INTO permission_main(id,permission_name,description,url,available,leaf,parent_id,orders,create_time,update_time) VALUES (2, 'BOOKMANAGE', '漫画管理', null, 'TRUE', 'TRUE', '3', '2', '2015-07-02 17:40:49', '2015-07-03 10:59:05');
 INSERT INTO permission_main(id,permission_name,description,url,available,leaf,parent_id,orders,create_time,update_time) VALUES (3, 'BOOK', '漫画', null, 'TRUE', 'FALSE', null, '1', '2015-07-03 10:58:52', '2015-07-03 10:59:20');
 
-
 -- ----------------------------
 -- Records of role_main
 -- ----------------------------
