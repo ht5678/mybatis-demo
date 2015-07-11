@@ -2,6 +2,7 @@ package com.mybatis.demo.lazyloader;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -45,6 +46,8 @@ public class LazyLoaderTest {
 		    Environment environment = new Environment("Production", transactionFactory, ds);
 		    Configuration configuration = new Configuration(environment);
 		    configuration.setLazyLoadingEnabled(true);
+		    configuration.setAggressiveLazyLoading(false);
+//		    configuration.setLazyLoadTriggerMethods(new HashSet<String>());
 		    configuration.getTypeAliasRegistry().registerAlias(UserPO.class);
 		    configuration.addMapper(UserMapper.class);
 		    sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
@@ -56,6 +59,13 @@ public class LazyLoaderTest {
 	}
 	
 	
+	
+	/**
+	 * 懒加载失效的原因是因为：debug模式查看的时候，debug会重起一个线程重新执行一次来获取值，
+	 * 在显示的时候，还会调用实体的tostring和hashcode方法，导致在另一个线程里触发了懒加载，
+	 * 造成的效果是，懒加载失效
+	 * @throws Exception
+	 */
 	@Test
 	  public void testGetUserByUsername() throws Exception {
 	    SqlSession session = sqlSessionFactory.openSession();
