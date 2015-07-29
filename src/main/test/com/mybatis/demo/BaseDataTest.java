@@ -20,9 +20,9 @@ import org.apache.ibatis.jdbc.ScriptRunner;
  */
 public class BaseDataTest {
 	
-	public static final String DERBY_PROPERTIES = "derby.properties";
+	public static final String DERBY_PROPERTIES = "config/derby.properties";
 	
-	public static final String HSQL_PROPERTIES = "hsql.properties";
+	public static final String HSQL_PROPERTIES = "config/hsql.properties";
 	
 	  /**
 	   * 创建UnpooledDataSource类型的数据源
