@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+
+    <bean id="demo_dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass">
+			<value>${driver}</value>
+		</property>
+		<property name="jdbcUrl">
+			<value>${url}</value>
+		</property>
+		<property name="user">
+			<value>${username}</value>
+		</property>
+		<property name="password">
+			<value>${password}</value>
+		</property>
+	</bean>
+	
+	
+	<bean id="demo_sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="demo_dataSource" />
+		<property name="configLocation"
+			value="classpath:mybatis/mybatis_config.xml" />
+		<property name="typeAliasesPackage" value="com.mybatis.demo" />
+	</bean>
+	
+	
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.mybatis.demo" />
+		<!-- 这里要用传beanName，不能传bean的ref，否则，会提前加载，用不到PropertyPlaceholder，切记 -->
+		<property name="sqlSessionFactoryBeanName" value="demo_sqlSessionFactory" />
+	</bean>
+	
+	
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+	  <constructor-arg index="0" ref="demo_sqlSessionFactory" />
+	  <!-- <constructor-arg index="1" value="BATCH" /> 如果想要进行批量操作可加入这个属性 -->
+	 </bean>
+	
+</beans>

@@ -7,8 +7,17 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>mybatis-demo Maven Webapp</name>
   <url>http://maven.apache.org</url>
-  <dependencies>
   
+  <properties>
+       <skipTests>true</skipTests>
+       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+       <springframework.version>4.1.6.RELEASE</springframework.version>
+       <slf4j.version>1.7.5</slf4j.version>
+    </properties>
+  
+  
+  <dependencies>
   	<!-- test -->
     <dependency>
       <groupId>junit</groupId>
@@ -19,10 +28,20 @@
     
     <!-- log -->
     <dependency>
-		<groupId>log4j</groupId>
-		<artifactId>log4j</artifactId>
-		<version>1.2.17</version>
-	</dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-api</artifactId>
+         <version>${slf4j.version}</version>
+     </dependency>
+     <dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-log4j12</artifactId>
+         <version>${slf4j.version}</version>
+     </dependency>
+	 <dependency>
+         <groupId>log4j</groupId>
+         <artifactId>log4j</artifactId>
+         <version>1.2.17</version>
+      </dependency>
 			
 	<!-- commons -->
 	<dependency>
@@ -120,6 +139,65 @@
       <version>2.2.9</version>
       <scope>test</scope>
     </dependency>
+    
+    <dependency>
+		<groupId>c3p0</groupId>
+		<artifactId>c3p0</artifactId>
+		<version>0.9.1.2</version>
+	</dependency>
+    
+    <!-- spring -->
+    <dependency>
+        <groupId>org.mybatis</groupId>
+        <artifactId>mybatis-spring</artifactId>
+        <version>1.2.2</version>
+    </dependency>
+	<dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-beans</artifactId>
+         <version>${springframework.version}</version>
+     </dependency>
+     <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-context</artifactId>
+         <version>${springframework.version}</version>
+     </dependency>
+     <dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-jdbc</artifactId>
+		<version>${springframework.version}</version>
+	</dependency>
+     <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-context-support</artifactId>
+         <version>${springframework.version}</version>
+     </dependency>
+     <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-tx</artifactId>
+         <version>${springframework.version}</version>
+     </dependency>
+     <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-test</artifactId>
+         <scope>test</scope>
+         <version>${springframework.version}</version>
+     </dependency>
+     <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-core</artifactId>
+         <version>${springframework.version}</version>
+     </dependency>
+     <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-expression</artifactId>
+         <version>${springframework.version}</version>
+     </dependency>
+     <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-aop</artifactId>
+         <version>${springframework.version}</version>
+     </dependency>
 	
   </dependencies>
   
