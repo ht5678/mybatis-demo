@@ -21,3 +21,8 @@ buildNumber.properties
 *.jar
 *.war
 *.ear
+
+
+#derby
+derby.log
+ibderby/*
