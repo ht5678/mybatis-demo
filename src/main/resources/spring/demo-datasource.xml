@@ -58,7 +58,10 @@
 	</bean>
 	
 	
-	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+	
+	<!-- scope="prototype"  正式环境不添加这个配置，正式环境会交给spring管理关闭；
+			测试环境添加这个只是为了不报错 : Manual close is not allowed over a Spring managed SqlSession  -->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
 	  <constructor-arg index="0" ref="demo_sqlSessionFactory" />
 	  <!-- <constructor-arg index="1" value="BATCH" /> 如果想要进行批量操作可加入这个属性 -->
 	 </bean>
