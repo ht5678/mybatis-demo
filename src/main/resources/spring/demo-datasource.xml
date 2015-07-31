@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx" 
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:aop="http://www.springframework.org/schema/aop"
     xsi:schemaLocation="
     http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -13,8 +16,10 @@
     http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
 
-    <bean id="demo_dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-		destroy-method="close">
+	<!-- 必须放在当前文件，否则会出现java.sql.SQLException: Access denied for user 。。。错误，用户名和密码会不正确-->
+	<context:property-placeholder location="classpath:config/derby.properties"/>
+
+    <bean id="demo_dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
 		<property name="driverClass">
 			<value>${driver}</value>
 		</property>
@@ -28,18 +33,26 @@
 			<value>${password}</value>
 		</property>
 	</bean>
+
+	<!--  事务 
+	<tx:annotation-driven transaction-manager="transactionManager" />
 	
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="demo_dataSource" />
+	</bean>
+	-->
 	
 	<bean id="demo_sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="demo_dataSource" />
 		<property name="configLocation"
 			value="classpath:mybatis/mybatis_config.xml" />
-		<property name="typeAliasesPackage" value="com.mybatis.demo" />
+		<property name="typeAliasesPackage" value="com.mybatis.demo.*.po" />
 	</bean>
 	
 	
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.mybatis.demo" />
+		<property name="basePackage" value="com.mybatis.demo.*.mapper" />
 		<!-- 这里要用传beanName，不能传bean的ref，否则，会提前加载，用不到PropertyPlaceholder，切记 -->
 		<property name="sqlSessionFactoryBeanName" value="demo_sqlSessionFactory" />
 	</bean>

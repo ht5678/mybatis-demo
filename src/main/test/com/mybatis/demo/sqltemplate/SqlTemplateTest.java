@@ -2,7 +2,6 @@ package com.mybatis.demo.sqltemplate;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -15,6 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.mybatis.demo.BaseDataTest;
+import com.mybatis.demo.common.po.UserPO;
 
 
 /**
@@ -31,8 +31,6 @@ public class SqlTemplateTest {
     @Autowired
     private SqlSessionTemplate sqlSessionTemplate;
     
-//    private SqlSessionFactory sqlSessionFactory = null;
-    
     
     /**
      * 初始化datasource
@@ -44,16 +42,6 @@ public class SqlTemplateTest {
             ds = BaseDataTest.createUnpooledDataSource(BaseDataTest.DERBY_PROPERTIES);
             BaseDataTest.runScript(ds, "com/mybatis/demo/databases/lazyloader/lazyloader-schema.sql");
             BaseDataTest.runScript(ds, "com/mybatis/demo/databases/lazyloader/lazyloader-dataload.sql");
-            //初始化sqlSessionFactory
-//            TransactionFactory transactionFactory = new JdbcTransactionFactory();
-//            Environment environment = new Environment("Production", transactionFactory, ds);
-//            Configuration configuration = new Configuration(environment);
-//            configuration.setLazyLoadingEnabled(true);
-//            configuration.setAggressiveLazyLoading(false);
-//          configuration.setLazyLoadTriggerMethods(new HashSet<String>());
-//            configuration.getTypeAliasRegistry().registerAlias(UserPO.class);
-//            configuration.addMapper(UserMapper.class);
-//            sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -65,11 +53,14 @@ public class SqlTemplateTest {
     
     /**
      * 测试查询
+     * java.lang.UnsupportedOperationException: Manual close is not allowed over a Spring managed SqlSession不要在意
      */
     @Test
     public void testSelect(){
-        List<?> result = sqlSessionTemplate.selectList("com.mybatis.demo.lazyload.mapper.UserMapper.getRolesByUserId", 1);
+        UserPO  result = sqlSessionTemplate.selectOne("com.mybatis.demo.lazyload.mapper.UserMapper.getUserByUsername", "zhangsan");
         System.out.println(result);
+//        UserPO result = userMapper.getUserByUsername("zhangsan");
+//        System.out.println(result);
     }
     
 
