@@ -59,8 +59,6 @@ public class SqlTemplateTest {
     public void testSelect(){
         UserPO  result = sqlSessionTemplate.selectOne("com.mybatis.demo.lazyload.mapper.UserMapper.getUserByUsername", "zhangsan");
         System.out.println(result);
-//        UserPO result = userMapper.getUserByUsername("zhangsan");
-//        System.out.println(result);
     }
     
 
