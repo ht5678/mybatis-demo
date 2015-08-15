@@ -5,6 +5,8 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.mybatis.demo.BaseDataTest;
 import com.mybatis.demo.common.po.UserPO;
+import com.mybatis.demo.lazyload.mapper.UserMapper;
 
 
 /**
@@ -31,6 +34,8 @@ public class SqlTemplateTest {
     @Autowired
     private SqlSessionTemplate sqlSessionTemplate;
     
+    @Autowired
+    private SqlSessionFactory sqlSessionFactory;
     
     /**
      * 初始化datasource
@@ -50,9 +55,21 @@ public class SqlTemplateTest {
     }
     
     
+    /**
+     * 测试mybatis自身的查询
+     */
+    @Test
+    public void testMybatisSelect(){
+    	SqlSession session = sqlSessionFactory.openSession();
+    	UserMapper mapper = session.getMapper(UserMapper.class);
+    	UserPO userPo = mapper.getUserByUsername("zhangsan");
+    	System.out.println("-----testMybatisSelect:"+userPo.getUsername());
+    }
+    
+    
     
     /**
-     * 测试查询
+     * mybatis-spring : sqlSessionTemplate测试查询
      * java.lang.UnsupportedOperationException: Manual close is not allowed over a Spring managed SqlSession不要在意
      */
     @Test
